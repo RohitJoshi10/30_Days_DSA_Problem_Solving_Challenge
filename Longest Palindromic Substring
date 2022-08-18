@@ -1,0 +1,242 @@
+Problem link:- https://leetcode.com/problems/longest-palindromic-substring/
+
+class Solution {
+public:
+    string longestPalindrome(string s) {
+         
+        int n=s.size();
+        int start=0;
+        int maxlen=1;
+        //expand your palindromic string(moving towards right and left)
+        for(int i=0; i<n; i++){
+            for(int l=i-1, r=i; l>=0 && r<n && s[l]==s[r]; l--, r++){
+                if(r-l+1> maxlen){
+                    maxlen=r-l+1;
+                    start=l;
+                }
+            }
+            for(int l=i-1, r=i+1; l>=0 && r<n && s[l]==s[r]; l--, r++){
+                if(r-l+1> maxlen){
+                    maxlen=r-l+1;
+                    start=l;
+                }
+            }
+            
+        }
+        return s.substr(start, maxlen);
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+// 1.) Brute Force Approach - Check for all individual substrings whether they are palindrome or not.
+// Time Complexity - O(N^3) , Total Substrings = N^2 and time for checking each Palindrome is O(N).
+// Space Complexity - O(1)
+
+// class Solution
+// {
+//        int isPalindrome(string S, int start, int end)
+//        {
+//               int originalLength = end - start + 1;
+//               while (start < end)
+//               {
+//                      if (S[start] != S[end])
+//                      {
+//                             break;
+//                      }
+//                      start++;
+//                      end--;
+//               }
+
+//               if (start < end)
+//               {
+//                      return 0;
+//               }
+//               else
+//               {
+//                      return originalLength;
+//               }
+//        }
+
+// public:
+//        string longestPalindrome(string s)
+//        {
+//               int length = s.length();
+//               int maxLength = 0;
+//               string answer;
+//               for (int start = 0; start < length; start++)
+//               {
+//                      for (int end = start; end < length; end++)
+//                      {
+//                             int currentStringLength = end - start + 1;
+//                             if (currentStringLength > maxLength)
+//                             {
+//                                    int currentLength = isPalindrome(s, start, end);
+//                                    if (currentLength > maxLength)
+//                                    {
+//                                           maxLength = currentLength;
+//                                           answer = s.substr(start, end - start + 1);
+//                                    }
+//                             }
+//                      }
+//               }
+//               return answer;
+//        }
+// };
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 2.) Dynamic Programming
+// Time Complexity - O(N^2)
+// Space Complexity - O(N^2)
+
+// class Solution
+// {
+// public:
+//        string longestPalindrome(string s)
+//        {
+//               int length = s.length();
+//               bool **dp = new bool *[length];
+
+//               for (int i = 0; i < length; i++)
+//               {
+//                      dp[i] = new bool[length];
+//               }
+
+//               int maxLength = 0;
+//               int startIndex = INT_MAX;
+
+//               string answer;
+//               for (int i = length - 1; i >= 0; i--)
+//               {
+//                      for (int j = i; j < length; j++)
+//                      {
+//                             if (i == j)
+//                             {
+//                                    dp[i][j] = true;
+//                             }
+//                             else if (j - i == 1)
+//                             {
+//                                    if (s[i] == s[j])
+//                                    {
+//                                           dp[i][j] = true;
+//                                    }
+//                                    else
+//                                    {
+//                                           dp[i][j] = false;
+//                                    }
+//                             }
+//                             else
+//                             {
+//                                    if (s[i] == s[j] && dp[i + 1][j - 1] == true)
+//                                    {
+//                                           dp[i][j] = true;
+//                                    }
+//                                    else
+//                                    {
+//                                           dp[i][j] = false;
+//                                    }
+//                             }
+//                             int currentLength = j - i + 1;
+//                             if (dp[i][j] == true)
+//                             {
+//                                    if (currentLength > maxLength)
+//                                    {
+//                                           startIndex = i;
+//                                           maxLength = currentLength;
+//                                    }
+//                                    else if (currentLength == maxLength && i < startIndex)
+//                                    {
+//                                           startIndex = i;
+//                                    }
+//                             }
+//                      }
+//               }
+
+//               answer = s.substr(startIndex, maxLength);
+//               return answer;
+//        }
+// };
+
+
+
+
+
+
+
+
+
+
+// 3. Expanding from centre.
+// Time Complexity - O(N^2)
+// Space Complexity - O(1)
+
+// class Solution
+// {
+// public:
+//        void expandOutwards(string &S, int left, int right, int &maxLength, int &startIndex)
+//        {
+//               int length = S.size();
+
+//               while (left >= 0 && right < length && S[left] == S[right])
+//               {
+//                      if (right - left + 1 > maxLength)
+//                      {
+//                             startIndex = left;
+//                             maxLength = right - left + 1;
+//                      }
+//                      else if (right - length + 1 == maxLength && left < startIndex)
+//                      {
+//                             startIndex = left;
+//                      }
+//                      left--;
+//                      right++;
+//               }
+//        }
+//        string longestPalindrome(string s)
+//        {
+//               int length = s.length();
+//               int maxLength = INT_MIN;
+//               int startIndex = INT_MAX;
+//               string answer;
+
+//               for (int i = 0; i < length; i++)
+//               {
+//                      int left = i;
+//                      int right = i;
+//                      // Odd Length
+//                      expandOutwards(s, left, right, maxLength, startIndex);
+//                      // Even Length
+//                      expandOutwards(s, left, right + 1, maxLength, startIndex);
+//               }
+//               answer = s.substr(startIndex, maxLength);
+//               return answer;
+//        }
+// };
+
+
+
+
+
+
+
+
+
