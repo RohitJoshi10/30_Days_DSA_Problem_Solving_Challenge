@@ -1,0 +1,60 @@
+Problem link:- https://practice.geeksforgeeks.org/problems/permutations-of-a-given-string2041/1
+
+
+class Solution
+{
+	public:
+		vector<string>find_permutation(string S)
+		{
+		    // Code here there
+		      vector<string>res;
+           // sort the string in lexicographically order
+           sort(S.begin(), S.end());
+           do
+           {
+               // keep adding while there is next permutation
+               res.push_back(S);
+           }while(next_permutation(S.begin(), S.end()));
+           return res;
+		}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+class Solution
+{
+	public:
+	set<string>st;
+	vector<string>ans;
+	void solve(string &s,string per){
+	    
+	    if(s.size()==0){
+	        st.insert(per);
+	        return;
+	    }
+	    for(int i=0;i<s.size();i++){
+	        char temp=s[i];
+	        string str=s.substr(0,i)+s.substr(i+1);
+	        solve(str,per+temp);
+	        
+	    }
+	    
+	}
+		vector<string>find_permutation(string S)
+		{
+		    // Code here there
+		    solve(S,"");
+		    for(auto i:st)ans.push_back(i);
+		    return ans;
+		}
+};
