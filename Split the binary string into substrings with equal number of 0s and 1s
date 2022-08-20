@@ -1,0 +1,35 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/split-the-binary-string-into-substrings-with-equal-number-of-0s-and-1s/1
+
+class Solution {
+public:
+    int maxSubStr(string str){
+       
+     
+    // To store the count of 0s and 1s
+    int count0 = 0, count1 = 0;
+ 
+    // To store the count of maximum
+    // substrings str can be divided into
+    int cnt = 0;
+    for (int i = 0; i < str.length(); i++) {
+        if (str[i] == '0') {
+            count0++;
+        }
+        else {
+            count1++;
+        }
+        if (count0 == count1) {
+            cnt++;
+        }
+    }
+ 
+    // It is not possible to
+    // split the string
+    if (count0!=count1) {
+        return -1;
+    }
+ 
+    return cnt;
+    
+    }
+};
