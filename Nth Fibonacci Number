@@ -3,6 +3,7 @@ Problem Link:- https://www.codingninjas.com/codestudio/problems/nth-fibonacci-nu
 #include<bits/stdc++.h>
 using namespace std;
 
+// This is recursive approach so we get TC:- O(2^n) adn SC:- O(n).........Now TC is not good here so use DP to reduce TC as here we are making same call and calculating it every time while making the same call.
 int fibo(int n)
 {
     if(n==1 || n==2) return 1;
