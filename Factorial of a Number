@@ -1,0 +1,28 @@
+Problem Link:-  https://www.codingninjas.com/codestudio/problems/factorial-of-a-number_1115779?source=youtube&campaign=Recursion_Fraz&utm_source=youtube&utm_medium=affiliate&utm_campaign=Recursion_Fraz&leftPanelTab=0
+
+#include <iostream>
+using namespace std;
+
+int fact(int n)
+{
+  
+    if(n==0 || n==1) return 1;
+    
+    return (n * fact(n-1));
+}
+
+int main() {
+    int n;
+    cin>>n;
+    
+    if(n<0)
+    {
+        cout<<"Error"<<endl;
+    }
+    else{
+        cout<<fact(n)<<endl;
+    }
+    
+
+    return 0;
+}
