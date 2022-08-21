@@ -1,0 +1,17 @@
+Problem Link:- https://www.codingninjas.com/codestudio/problems/find-power-of-a-number_893198?source=youtube&campaign=Recursion_Fraz&utm_source=youtube&utm_medium=affiliate&utm_campaign=Recursion_Fraz&leftPanelTab=0
+
+long long Pow(int X, int N)
+{
+
+//     TC:- O(n) SC:- O(n)
+//     if(N == 0) return 1;
+//     long long partialAns = Pow(X,N-1);
+//     return (X * partialAns);
+    
+//  TC:- O(logN)  SC:- O(logN)  with base 2
+    if(N==0) return 1;
+    long long temp = Pow(X,N/2);
+    if(N%2==1) return temp*temp*X; // Handling the odd case
+    return temp*temp; 
+    
+}
