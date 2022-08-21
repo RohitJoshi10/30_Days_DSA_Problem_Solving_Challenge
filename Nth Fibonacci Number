@@ -1,0 +1,18 @@
+Problem Link:- https://www.codingninjas.com/codestudio/problems/nth-fibonacci-number_74156?source=youtube&campaign=Recursion_Fraz&utm_source=youtube&utm_medium=affiliate&utm_campaign=Recursion_Fraz&leftPanelTab=1
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int fibo(int n)
+{
+    if(n==1 || n==2) return 1;
+  
+    return fibo(n-1) + fibo(n-2);
+}
+
+int main()
+{
+      int n;
+      cin>>n;
+      cout<<fibo(n)<<endl;
+}
