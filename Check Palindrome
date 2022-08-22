@@ -1,0 +1,14 @@
+Problem Link:- https://www.codingninjas.com/codestudio/problems/check-palindrome_4219630
+
+bool isPalindromeHelper(int l, int r, string &s)
+{
+    if(l>=r) return true;
+    if(s[l]!=s[r]) return false;
+    return isPalindromeHelper(l+1, r-1, s);
+}
+bool isPalindrome(string &s)
+{
+	return isPalindromeHelper(0, s.size()-1, s);
+}
+
+// TC and SC both are O(N)
