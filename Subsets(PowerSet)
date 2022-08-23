@@ -1,0 +1,28 @@
+Problem Link:- https://leetcode.com/problems/subsets/submissions/
+
+// Constructing a subset(Once constructed then it will save it somewhere)
+void helper(vector<int>&v, int i, vector<int> &subSet, vector<vector<int>> &ans)
+{
+    // Base
+    if(i==v.size())
+    {
+        // Saving the subset in ans
+        ans.push_back(subSet);
+        return ;
+    }
+    
+    // Include the ith element
+    subSet.push_back(v[i]);
+    helper(v,i+1,subSet,ans); // Ask recursion to do this for the remaning part
+    
+    // Not Including the ith element
+    subSet.pop_back();
+    helper(v,i+1,subSet,ans); // // Ask recursion to do this for the remaning part
+}
+    
+    vector<vector<int>> subsets(vector<int>& v) {
+      vector<vector<int>> ans;
+      vector<int> subSet;
+      helper(v,0,subSet,ans);
+      return ans;
+    }
