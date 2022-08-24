@@ -1,0 +1,37 @@
+Problem Link:- https://leetcode.com/problems/subsets-ii/submissions/
+
+class Solution {
+public:
+ void help(int i, vector<int>&arr, int n, vector<int>&subset, vector<vector<int>> &powerSet )
+{
+    if(i == n)
+    {
+        powerSet.push_back(subset);
+        return ;
+    }
+    else
+    {
+        // Pick
+        subset.push_back(arr[i]);
+        help(i+1,arr,n,subset,powerSet);
+        subset.pop_back();
+        
+        // Skip :- When you are not picking an element then you should make sure that you should be not picking the same element in near future also and just increment the value of i
+        while( i+1 < arr.size() && arr[i] == arr[i+1] ) i++;
+        help(i+1,arr,n,subset,powerSet);
+    }
+}
+
+    
+    
+vector<vector<int>> subsetsWithDup(vector<int>& arr) {
+     int n = arr.size();
+     vector<vector<int>> powerSet;
+     vector<int> subset;
+     sort(arr.begin(),arr.end());
+     help(0,arr,n,subset,powerSet);
+     sort(powerSet.begin(),powerSet.end());
+     return powerSet;
+    
+    }
+};
