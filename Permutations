@@ -1,0 +1,40 @@
+Problem Link:- https://leetcode.com/problems/permutations/submissions/
+
+class Solution {
+public:
+    // First we will do the small task i.e bringing all the elements to the current position one by one
+void perm(int pos,vector<int>& nums, vector<vector<int>> &ans)
+{
+    // Base Condation
+    if(pos>=nums.size())
+    {
+        ans.push_back(nums);
+    }
+    
+    for(int i=pos; i<nums.size(); i++)
+    {
+        swap(nums[i],nums[pos]);
+        perm(pos+1,nums,ans);
+        // Above I have done swapping so the order get distub so swap it again
+        swap(nums[i],nums[pos]); // Backtracking step(Undo the earlier swap)
+    }
+}
+    
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+         vector<vector<int>> ans;
+         perm(0,nums,ans);
+         sort(ans.begin(),ans.end());
+         return ans;
+    }
+};
+
+
+
+
+
+
+
+
+
+
