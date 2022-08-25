@@ -1,0 +1,41 @@
+problem link:- https://leetcode.com/problems/combination-sum-ii/submissions/
+
+class Solution {
+public:
+    
+    void help(int i, vector<int>&candidates, int n, vector<int>&subset,vector<vector<int>>&powerSet, int sum,int target)
+{
+    if(sum == target)
+    {
+        powerSet.push_back(subset);
+        return ;
+    }
+    
+    if(sum > target) return ;
+    if(i == n) return ;
+    
+    // Pick
+    subset.push_back(candidates[i]);
+    sum += candidates[i];
+    help(i+1,candidates,n,subset,powerSet,sum,target);
+    subset.pop_back();
+    
+    // Doing backtracking
+    sum -= candidates[i];
+        
+    // Skip
+    while(i+1 < candidates.size() && candidates[i] == candidates[i+1]) i++;
+    help(i+1,candidates,n,subset,powerSet,sum,target);
+    
+}
+    
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        vector<int> subset;
+        vector<vector<int>> powerSet;
+        int sum = 0;
+        int n = candidates.size();
+        sort(candidates.begin(),candidates.end());
+        help(0,candidates,n,subset,powerSet,sum,target);
+        return powerSet;
+    }
+};
