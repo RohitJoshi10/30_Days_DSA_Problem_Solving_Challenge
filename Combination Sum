@@ -1,0 +1,40 @@
+Problem Link:- https://leetcode.com/problems/combination-sum/
+
+class Solution {
+public:
+    
+    void help(int i,vector<int> &candidates, int target, int sumTillNow, vector<int>& subSet, vector<vector<int>> &ans)
+{
+    // Base Condation
+    if(sumTillNow == target)
+    {
+        ans.push_back(subSet);
+        return ;
+    }
+        
+    if(sumTillNow > target) return ;
+    
+    if(i >= candidates.size()) return ;
+         
+    
+    // Skip the ith element
+    help(i+1,candidates,target,sumTillNow,subSet,ans);
+    
+    // Take the ith element
+    sumTillNow += candidates[i];
+    subSet.push_back(candidates[i]); // We created the distrubence as referenc is passing
+    help(i,candidates,target,sumTillNow,subSet,ans); // Asking recursion to do rest of the task
+    sumTillNow -= candidates[i]; // Backtracking steps (removing the distrubence)
+    subSet.pop_back(); //  Backtracking steps
+}
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+      vector<int> subSet;
+      int sumTillNow = 0;
+      vector<vector<int>> ans;
+      sort(candidates.begin(),candidates.end());
+      help(0,candidates,target,sumTillNow,subSet,ans);
+    
+    return ans;
+    }
+};
