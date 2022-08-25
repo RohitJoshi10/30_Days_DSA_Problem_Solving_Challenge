@@ -1,0 +1,50 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/sum-tree/1
+
+class Solution
+{
+    public:
+    
+    pair<bool, int> isSumTreeFast(Node* root)
+    {
+        // Base case
+        if(root == NULL){
+            pair<bool, int> p = make_pair(true, 0); // AS node he ni hai so sum zero
+            return p;
+        }
+        
+        // Dont check for the leaf nodes
+        if(root->left == NULL && root->right == NULL){
+            pair<bool, int> p = make_pair(true, root->data); // leaf node se jo sum rturn krenge upper wali node ko wo root ka data hoga 
+            return p;
+        }
+        
+        // Left and right se answer nikal le late hai(recursion call for left and right)
+        pair<bool, int> leftAns = isSumTreeFast(root->left);
+        pair<bool, int> rightAns = isSumTreeFast(root->right);
+        
+        // While the left and right return something the bool value and data. Here i need to check for 3 condations.
+        bool left = leftAns.first; // Checking is left part is sum tree or not
+        bool right = rightAns.first; // Checking is right part sum tree or not
+        bool sum = root->data == leftAns.second + rightAns.second; // Checking the sum 
+        
+        pair<bool, int> ans;
+        
+        if(left && right && sum)
+        {
+            ans.first = true;
+            ans.second = 2*root->data; // root->data + left.second + right.second;
+        }
+        else
+        {
+            ans.first = false;
+        }
+        return ans;
+        
+    }
+    
+    bool isSumTree(Node* root)
+    {
+         // Your code here
+         return isSumTreeFast(root).first;
+    }
+};
