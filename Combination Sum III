@@ -1,0 +1,46 @@
+Problem Link:- https://leetcode.com/problems/combination-sum-iii/
+
+class Solution {
+public:
+    void help(int i, int k, int sumTillNow, int n, vector<int>&subSet, vector<vector<int>> &ans)
+{
+    if(sumTillNow > n) return ;
+    if(k == 0)
+    {
+        if(sumTillNow == n)
+        {
+            ans.push_back(subSet);
+        }
+        return ;
+    }
+    
+//     if(k < 0) return ;
+//     if(sumTillNow == n)
+//     {
+//        if(k == 0)
+//        {
+//           ans.push_back(subSet);
+//        }
+//        return ;
+//     }
+    
+    if(i == 10) return ;
+    // Pick the ith element
+    sumTillNow += i;
+    subSet.push_back(i);
+    help(i+1,k-1,sumTillNow,n,subSet,ans);
+    sumTillNow -= i;
+    subSet.pop_back();
+    
+    // Ignore the ith element
+    help(i+1,k,sumTillNow,n,subSet,ans);
+    
+}
+    
+  vector<vector<int>> combinationSum3(int k, int n) {
+    vector<int> subSet;
+    vector<vector<int>> ans;
+    help(1,k,0,n,subSet,ans);
+    return ans;
+  }
+};
