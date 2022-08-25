@@ -1,0 +1,39 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/determine-if-two-trees-are-identical/1
+TC:- O(N) As we are traversing the node once only and SC:- O(H) where H is the height of the tree.
+  
+class Solution
+{
+    public:
+    //Function to check if two trees are identical.
+    bool isIdentical(Node *r1, Node *r2)
+    {
+        //Your Code here
+        if(r1 == NULL && r2 == NULL){
+            return true;
+        }
+        
+        if(r1 == NULL && r2 != NULL){
+            return false;
+        }
+        
+        if(r1 != NULL && r2 == NULL){
+            return false;
+        }
+        
+        // Now both r1 and r2 are not null
+        
+        bool left = isIdentical(r1->left, r2->left);
+        bool right = isIdentical(r1->right, r2->right);
+        
+        bool currentValue = r1->data == r2->data;
+        
+        if(left && right && currentValue)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+};
