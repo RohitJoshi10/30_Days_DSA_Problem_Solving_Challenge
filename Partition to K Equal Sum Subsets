@@ -1,0 +1,81 @@
+Problem Link:- https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
+
+// DP Solution
+class Solution {
+public:
+      unordered_map<string, int> dp;
+    int solve(vector<int>& nums, int target, int remain, int i, int vis, int k){
+        if( k == 1) return 1;
+        
+        //memorization addition
+        string t = to_string(i)+"_"+to_string(remain)+"_"+to_string(k)+"_"+to_string(vis);
+        if(dp.find(t) != dp.end()) return dp[t];
+        
+        if(remain == 0){ 
+            return dp[t] = solve(nums, target, target, nums.size()-1, vis, k - 1);
+        } 
+        for(int j = i; j >= 0; --j){
+            if(((vis>>j)& 1) || remain - nums[j] < 0) continue;
+            vis = vis | (1 << j );
+            if(solve(nums, target, remain - nums[j], j - 1, vis, k) ) return dp[t] = 1;
+            vis = vis & ~(1<<j);
+        }
+        return dp[t] = 0;
+    }
+    
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        if(sum%k != 0) return false;
+        int vis = 0;
+        return solve(nums, sum/k, sum/k, nums.size()-1, vis, k);
+    }
+    
+};
+
+
+
+
+// Recursive Solution without DP solution is correct but it will take will TLE error
+
+// class Solution {
+// public:
+//     bool help(int i, int bucketNum, int bucketSum, int reqSum, int K, vector<int>&nums, vector<int>&alreadyPicked)
+// {
+//     if(bucketNum == K+1) return true;
+//     if(bucketSum == reqSum)
+//     {
+//         return help(0,bucketNum+1,0,reqSum,K,nums,alreadyPicked);
+//     }
+//     if(bucketSum > reqSum) return false;
+//     if(i >= nums.size()) return false;
+//     // If it is already picked in the past you will not pick it up then.
+//     if(alreadyPicked[i]==1)
+//     {
+//         return help(i+1,bucketNum,bucketSum,reqSum,K,nums,alreadyPicked);
+//     }
+//     else
+//     {
+//         // Picking
+//         bucketSum += nums[i];
+//         alreadyPicked[i] = 1;
+//         bool op1 = help(i+1,bucketNum, bucketSum, reqSum, K, nums, alreadyPicked);
+        
+//         // Skip
+//         bucketSum -= nums[i];
+//         alreadyPicked[i] = 0;
+//         bool op2 = help(i+1, bucketNum, bucketSum, reqSum, K, nums, alreadyPicked);
+        
+//         return op1 | op2;
+//     }
+// }
+    
+// bool canPartitionKSubsets(vector<int>& nums, int K) {
+//     int n = nums.size();
+//     vector<int> alreadyPicked(n,0);
+//     int sum = 0;
+//     for(int i=0; i<n; i++) sum+=nums[i];
+//     if(sum%K != 0) return false;
+//     int reqSum = sum/K;
+//     return help(0,1,0,reqSum,K,nums,alreadyPicked);
+//     }
+// };
