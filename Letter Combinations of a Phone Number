@@ -1,0 +1,45 @@
+Probelm Link:- https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+
+class Solution {
+public:
+    
+    // We are passing string as a reference because we don't want to make any changes. If we do not put '&' sign then every time ypu call the recursive        funtion it will make it's copy which will consuem more memory
+void help(int i, string& digits, string &temp, vector<string>&ans, unordered_map<char,string> &m)
+{
+    if(digits == "")
+    {
+	   return ;
+	}
+    if(i==digits.size())
+    {
+        ans.push_back(temp);
+        return ;
+    }
+    string str = m[digits[i]];
+    for(int j=0; j<str.size(); j++)
+    {
+        temp.push_back(str[j]); // making change
+        help(i+1,digits,temp,ans,m);
+        temp.pop_back(); // undo the changes   
+    }
+}
+    
+    
+vector<string> letterCombinations(string digits) {
+    unordered_map<char,string> m;
+   
+    m['2'] = "abc";
+    m['3'] = "def";
+    m['4'] = "ghi";
+    m['5'] = "jkl";
+    m['6'] = "mno";
+    m['7'] = "pqrs";
+    m['8'] = "tuv";
+    m['9'] = "wxyz";
+	
+    vector<string> ans;
+    string temp;
+    help(0,digits,temp,ans,m);
+    return ans;
+    }
+};
