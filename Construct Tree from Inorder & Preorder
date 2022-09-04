@@ -1,0 +1,121 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/construct-tree-1/1
+
+// Code first
+
+In this solution we are making O(N) tc as we are traversing the Inorderarray in findposition wale function mai.....so in second sol will we optimize it from O(N) to O(1). BY using a map ...in which i have inorder ka kon sa element ka kon sa index h.
+class Solution{
+    public:
+    
+    int findPosition(int in[], int element, int n)
+    {
+        for(int i=0; i<n; i++)
+        {
+            if(in[i] == element)
+              return i;
+        }
+        return -1;
+    }
+    
+    Node* solve(int in[], int pre[], int &index, int inorderStart, int inorderEnd, int n)
+    {
+        // Base Case
+        // 1. if preorder k index ne saare k saare array cover kr lia
+        // if(index >= n)
+        // {
+        //     return NULL;
+        // }
+        
+        // 2. Inoder ka starting index inoder k ending index k bahar chle gye hai(End phele aa gya and start baad mai)
+        // if(inorderStart > inorderEnd)
+        // {
+        //     return NULL;
+        // }
+        
+        // Base Case
+        if(index >= n || inorderStart > inorderEnd)
+          return NULL;
+        
+        int element = pre[index++]; // Taking preOder first element and index aage badho do
+        Node* root = new Node(element); // Fir aap ne uss element ka use krke node bana di
+        int position = findPosition(in, element, n); // Now position nikal di apne uss element ki inorder mai
+        
+        // Now make left and Right recursive call
+        root->left = solve(in, pre, index, inorderStart, position-1, n);
+        root->right = solve(in, pre, index, position+1, inorderEnd, n);
+        
+        return root;
+        
+        
+        
+        
+        
+    }
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        int preOrderIndex = 0;
+        Node* ans = solve(in, pre, preOrderIndex, 0, n-1, n); // Inorder ka starting index 0 hai and ending index n-1
+        return ans;
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+// Code Second
+
+class Solution{
+    public:
+    
+    void createMapping(int in[], map<int,int> &nodeToIndex, int n)
+    {
+        for(int i=0; i<n; i++)
+        {
+            nodeToIndex[in[i]] = i;
+        }
+    }
+    
+    
+    Node* solve(int in[], int pre[], int &index, int inorderStart, int inorderEnd, int n, map<int,int> &nodeToIndex)
+    {
+        
+        // Base Case:-  1. if preorder k index ne saare k saare array cover kr lia 2. Inoder ka starting index inoder k ending index k bahar chle gye hai(End phele aa gya and start baad mai)
+        if(index >= n || inorderStart > inorderEnd)
+          return NULL;
+        
+        // Create a root node for element
+        int element = pre[index++]; // Taking preOder first element and index aage badho do
+        Node* root = new Node(element); // Fir aap ne uss element ka use krke node bana di
+        
+        // Find element's index in inorder
+        int position = nodeToIndex[element];
+       
+        
+        // Now make left and Right recursive call
+        root->left = solve(in, pre, index, inorderStart, position-1, n, nodeToIndex);
+        root->right = solve(in, pre, index, position+1, inorderEnd, n, nodeToIndex);
+        
+        return root;
+    
+    }
+    
+    Node* buildTree(int in[],int pre[], int n)
+    {
+        int preOrderIndex = 0;
+        map<int,int> nodeToIndex;
+        
+        // Create Node to Index Mapping
+        createMapping(in, nodeToIndex, n);
+        Node* ans = solve(in, pre, preOrderIndex, 0, n-1, n, nodeToIndex); // Inorder ka starting index 0 hai and ending index n-1
+        return ans;
+    }
+};
+
+
+
