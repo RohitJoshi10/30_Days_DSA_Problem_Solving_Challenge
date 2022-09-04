@@ -1,0 +1,44 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/tree-from-postorder-and-inorder/1
+
+void createMapping(int in[], map<int,int> &nodeToIndex, int n)
+    {
+        for(int i=0; i<n; i++)
+        {
+            nodeToIndex[in[i]] = i;
+        }
+    }
+    
+     Node* solve(int in[], int post[], int &index, int inorderStart, int inorderEnd, int n, map<int,int> &nodeToIndex)
+    {
+        
+        // Base Case:-  1. if preorder k index ne saare k saare array cover kr lia 2. Inoder ka starting index inoder k ending index k bahar chle gye hai(End phele aa gya and start baad mai)
+        if(index < 0 || inorderStart > inorderEnd)
+          return NULL;
+        
+        // Create a root node for element
+        int element = post[index--]; // Taking preOder first element and index aage badho do
+        Node* root = new Node(element); // Fir aap ne uss element ka use krke node bana di
+        
+        // Find element's index in inorder
+        int position = nodeToIndex[element];
+       
+        
+        // Now make left and Right recursive call [In case of Postorder and Inorder , we first build the right subtree]
+        root->right = solve(in, post, index, position+1, inorderEnd, n, nodeToIndex);
+        root->left = solve(in, post, index, inorderStart, position-1, n, nodeToIndex);
+        
+        
+        return root;
+    
+    }
+
+//Function to return a tree created from postorder and inoreder traversals.
+Node *buildTree(int in[], int post[], int n) {
+      int postOrderIndex = n-1;
+        map<int,int> nodeToIndex;
+        
+        // Create Node to Index Mapping
+        createMapping(in, nodeToIndex, n);
+        Node* ans = solve(in, post, postOrderIndex, 0, n-1, n, nodeToIndex); // Inorder ka starting index 0 hai and ending index n-1
+        return ans;
+}
