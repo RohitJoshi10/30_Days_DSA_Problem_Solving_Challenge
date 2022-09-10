@@ -1,0 +1,89 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/kth-largest-element-in-bst/1
+
+
+// Solution 1
+// class Solution
+// {
+//     public:
+    
+    
+//     int solve(Node* root, int &i, int k)
+//   {
+//     // Base Case
+//     if(root == NULL)
+//     {
+//         return -1;
+//     }
+//     // Left
+//     int left = solve(root->left, i, k);
+    
+//     if(left != -1)
+//     {
+//         return left;
+//     }
+//     // Node(Root)
+//     i++;
+//     if(i==k)
+//         return root->data;
+//     // Right
+//     return solve(root->right, i, k);
+    
+//   }
+   
+//     int kthLargest(Node *root, int K)
+//     {
+//         //Your code here
+//         int i=0;
+//          vector<int> n;
+//       queue<Node*> q;
+    
+//       q.push(root);
+//       while(!q.empty())
+//       {
+//          Node* temp=q.front();
+//          q.pop();
+//           n.push_back(temp->data);
+//           if(temp->left)
+//           {
+//               q.push(temp->left);
+//           }
+//           if(temp->right)
+//           {
+//               q.push(temp->right);
+//           }
+//       }
+       
+//       int x=n.size()-K+1;
+//       return solve(root,i,x);
+        
+//     }
+// };
+
+
+
+
+// Solution 2
+class Solution
+{
+   public:
+   int result;
+   
+   void inorder(Node*root,vector<int>&res){
+       if(!root)
+           return;
+       
+       inorder(root->left,res);
+       res.push_back(root->data);
+       inorder(root->right,res);
+   }
+   
+   int kthLargest(Node *root, int K)
+   {
+       vector<int>res;
+       inorder(root,res);
+       
+       reverse(res.begin(),res.end());
+       
+       return res[K-1];
+   }
+};
