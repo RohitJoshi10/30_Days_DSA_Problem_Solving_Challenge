@@ -1,0 +1,45 @@
+Problem Link:- https://www.codingninjas.com/codestudio/problems/_893049
+
+
+pair<int,int> predecessorSuccessor(BinaryTreeNode<int>* root, int key)
+{
+    // Find key
+    BinaryTreeNode<int>* temp = root;
+    int pre = -1;
+    int suc = -1;
+    while(temp->data != key)
+    {
+        if(temp->data > key)
+        {
+            suc = temp->data;
+            temp = temp->left;
+        }
+        else
+        {
+            pre = temp->data;
+            temp = temp->right;
+        }
+    }
+    
+    // Pred and Succ
+    
+    // Pred always be in leftsubTree
+    BinaryTreeNode<int>* leftTree = temp->left;
+    while(leftTree != NULL)
+    {
+        pre = leftTree->data;
+        leftTree = leftTree->right;
+    }
+    
+     // Succ always be in rightsubTree
+    BinaryTreeNode<int>* rightTree = temp->right;
+    while(rightTree != NULL)
+    {
+        suc = rightTree->data;
+        rightTree = rightTree->left;
+    }
+    
+    pair<int,int> ans = make_pair(pre, suc);
+    return ans;
+       
+}
