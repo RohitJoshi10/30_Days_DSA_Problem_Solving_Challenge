@@ -8,4 +8,6 @@ Now  let's  extend it to  60 days challenge😎
 .
 .
 .
-# 30_Days_DSA_Problem_Solving_Challenge
+# 60_Days_DSA_Problem_Solving_Challenge
+Started in 18 September
+
