@@ -1,0 +1,31 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/reverse-a-stack/1
+
+void insertAtBottom(stack<int> &st, int x)
+{
+    if(st.empty())
+    {
+        st.push(x);
+        return ;
+    }
+    int val = st.top();
+    st.pop();
+    insertAtBottom(st,x);
+    st.push(val);
+}
+
+void solve(stack<int> &s){
+    // Base Case
+    if(s.empty())
+        return ;
+    else{
+        int num = s.top();
+        s.pop();
+        solve(s);
+        insertAtBottom(s,num);
+    }
+}
+
+void Reverse(stack<int> &St){
+        solve(St);
+    }
+
