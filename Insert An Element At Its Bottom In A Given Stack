@@ -1,0 +1,26 @@
+Problem Link:- https://www.codingninjas.com/codestudio/problems/insert-an-element-at-its-bottom-in-a-given-stack_1171166
+
+#include <bits/stdc++.h>
+
+stack<int> solve(stack<int>& myStack, int x, stack<int>& s)
+{
+    if(myStack.empty())
+    {
+        s.push(x);
+        return s;
+    }
+    else{
+        int num = myStack.top();
+        myStack.pop();
+        solve(myStack,x,s);
+        s.push(num);
+    }
+    return s;
+}
+
+stack<int> pushAtBottom(stack<int>& myStack, int x) 
+{
+    stack<int> s;
+    return solve(myStack,x,s);
+    
+}
