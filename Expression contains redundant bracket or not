@@ -1,0 +1,51 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/e015cb4d3f354b035d9665e7c8a54a7aefb1901b/1
+
+class Solution {
+  public:
+  
+    void findRedundant(string& str)
+   {
+	bool ans = checkRedundancy(str);
+	if (ans == true)
+		cout << "Yes\n";
+	else
+		cout << "No\n";
+    }
+    
+    
+    int checkRedundancy(string str) {
+        // code here
+        stack<char> st;
+
+	for (auto& ch : str) {
+
+		if (ch == ')') {
+			char top = st.top();
+			st.pop();
+
+			bool flag = true; //there are redundant brackets
+
+			while (!st.empty() and top != '(') {
+
+				// Check for operators in expression
+				if (top == '+' || top == '-' ||
+					top == '*' || top == '/')
+					flag = false;
+
+				top = st.top();
+				st.pop();
+			}
+
+			if (flag == true)
+				return true; // there are redundant brackets
+		}
+
+		else
+			st.push(ch); 
+	}
+	return false;
+    }
+};
+
+
+TC & SC:- O(N)
