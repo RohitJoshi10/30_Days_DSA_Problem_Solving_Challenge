@@ -1,0 +1,98 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/max-rectangle/1
+
+
+
+class Solution{
+  public:
+  
+  
+     vector<int> nextSmallerElement(int* arr, int n){
+     stack<int> s;
+     s.push(-1);
+     vector<int> ans(n);
+
+     for(int i = n-1; i>=0; i--){
+         int curr = arr[i];
+         // Starting mai humne -1 push kia h so usko handle krne k liye we will use the condition s.top() !=-1
+         while(s.top() !=-1 && arr[s.top()] >= curr) // value ko value se comapre kai so thats why write arr
+         {
+             s.pop();
+         }
+         ans[i] = s.top();
+         s.push(i); // Here we will push index of the curr
+     }
+     return ans;
+    }
+    
+    vector<int>prevSmallerElement(int* arr, int n){
+    stack<int> s;
+     s.push(-1);
+     vector<int> ans(n);
+
+     for(int i = 0; i<n; i++){
+         int curr = arr[i];
+         // Starting mai humne -1 push kia h so usko handle krne k liye we will use the condition s.top() !=-1
+         while(s.top() !=-1 && arr[s.top()] >= curr) // value ko value se comapre kai so thats why write arr
+         {
+             s.pop();
+         }
+         ans[i] = s.top();
+         s.push(i); // Here we will push index of the curr
+     }
+     return ans;
+    }
+  
+    int largestRectangleArea(int* height, int n){
+       
+       // It will store the indexs of next smaller element
+       vector<int> next(n);
+       next = nextSmallerElement(height, n);
+
+       // It will store the indexes of the previous smaller element
+       vector<int> prev(n);
+       prev = prevSmallerElement(height,n);
+
+       int area = INT_MIN;
+       for(int i=0; i<n; i++)
+       {
+           int l = height[i];
+           // When all elements are equal then in n=-1 & p=-1. Hence  b=n-p-1 i.e -1-(-1)-1=-1
+           if(next[i] == -1){
+               next[i] = n;
+           }
+           int b = next[i] - prev[i] -1;
+           int newArea = l*b;
+           area = max(area, newArea);
+       }
+       return area;
+    }
+  
+  
+    int maxArea(int M[MAX][MAX], int n, int m) {
+      
+      // Compute Area for first row
+      int area = largestRectangleArea(M[0], m);
+      // Compute Area for remaning rows
+      for(int i = 1; i<n; i++){
+         for(int j=0; j<m; j++){
+          // row update: by adding previous row's value
+          // Add hum tabhi krte hai jab current value non-zero ho
+          if(M[i][j] != 0)
+          M[i][j] = M[i][j] + M[i-1][j];
+          else
+            M[i][j] = 0;
+      }
+      
+      // Entire row Updated Now
+      int newArea = largestRectangleArea(M[i],m);
+      area = max(area, newArea);
+    }
+    
+    return area;
+  }
+};
+
+
+TC:- O(N*M)
+SC:- O(M)
+where N is the number of rows and M is the number of columns
