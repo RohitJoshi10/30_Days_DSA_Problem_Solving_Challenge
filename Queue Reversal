@@ -1,0 +1,44 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/queue-reversal/1
+
+// Using Stack
+// queue<int> rev(queue<int> q)
+// {
+//   stack<int>s;
+//   while(q.size()!=0)
+//   {
+//       int x = q.front();
+//       q.pop();
+//       s.push(x);
+//   }
+//   while(!s.empty())
+//   {
+//       int x = s.top();
+//       s.pop();
+//       q.push(x);
+//   }
+   
+//   return q;
+// }
+
+// Using Recursion
+void reverse(queue<int> &q)
+{
+    if(q.empty())
+    {
+        return ;
+    }
+    
+    int element = q.front();
+    q.pop();
+    reverse(q);
+    q.push(element);
+    
+}
+queue<int> rev(queue<int> q)
+{
+   reverse(q);
+   return q;
+}
+
+
+TC & SC:- O(N)
