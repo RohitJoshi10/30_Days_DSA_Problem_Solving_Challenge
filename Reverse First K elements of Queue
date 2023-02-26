@@ -1,0 +1,36 @@
+Problem Link:- https://practice.geeksforgeeks.org/problems/reverse-first-k-elements-of-queue/1
+queue<int> modifyQueue(queue<int> q, int k) {
+    // Step 1: pop first K from Q and put into Stack
+    stack<int>s;
+    
+    for(int i=0; i<k; i++)
+    {
+        int val = q.front();
+        q.pop();
+        s.push(val);
+    }
+    
+    // Step 2: Fetch from stack and push into q
+    while(!s.empty())
+    {
+        int val = s.top();
+        s.pop();
+        q.push(val);
+    }
+    
+    // Fetch first n-k elements from Q and pushback
+    
+    int t = q.size()-k;
+    
+    while(t--)
+    {
+        int val = q.front();
+        q.pop();
+        q.push(val);
+    }
+    return q;
+}
+
+
+
+TC:- O(N) SC:- O(K)
