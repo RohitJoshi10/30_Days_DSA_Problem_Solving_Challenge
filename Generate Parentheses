@@ -1,0 +1,33 @@
+Problem Link:- https://leetcode.com/problems/generate-parentheses/description/
+
+class Solution {
+public:
+
+    void helper(vector<string> &s, int n, int oc, int cc, string str)
+    {
+        // Base Case 
+        if(oc == n && cc == n)
+        {
+            s.push_back(str);
+            return;
+        }
+        
+        if(oc < n)
+        {
+            helper(s, n, oc + 1, cc, str+"(");
+        }
+
+        if(cc < oc)
+        {
+            helper(s, n, oc, cc + 1, str+")");
+        }
+
+    }
+
+    vector<string> generateParenthesis(int n) {
+        vector<string> s;
+        int oc = 0, cc = 0;
+        helper(s, n, oc, cc, "");
+        return s;
+    }
+};
