@@ -1,0 +1,23 @@
+Problem Link:- https://leetcode.com/problems/group-anagrams/
+
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> result;
+        unordered_map<string, vector<string>> m;
+
+        for(auto x: strs)
+        {
+            string temp = x;
+            sort(x.begin(), x.end()); // After sorting we get to know about the key
+            m[x].push_back(temp); // Pushing the actual string as value corresponding to the key
+        }
+
+        for(auto x: m)
+        {
+            result.push_back(x.second);
+        }
+
+        return result;
+    }
+};
