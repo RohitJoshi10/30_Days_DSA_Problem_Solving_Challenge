@@ -1,0 +1,128 @@
+Problem Link:- https://www.codingninjas.com/codestudio/problems/sort-linked-list-of-0s-1s-2s_1071937
+
+/********************************
+    class Node
+    {
+    public:
+        int data;
+        Node *next;
+        Node(int data)
+        {
+            this->data = data;
+            this->next = NULL;
+        }
+    };
+
+********************************/
+
+
+// Approach-1
+
+Node* sortList(Node *head)
+{
+    int zeroCount = 0;
+    int oneCount = 0;
+    int twoCount = 0;
+
+    // Traverse the Linked List and count the number of 0's, 1's, 2's
+    Node* temp = head;
+    while(temp!=NULL)
+    {
+        if(temp->data == 0) zeroCount++;
+        else if(temp->data == 1) oneCount++;
+        else if(temp->data == 2) twoCount++;
+
+        temp = temp->next;
+    }
+
+    // Traverse the Linked List and replace the data
+    temp = head;
+    while(temp!=NULL)
+    {
+        if(zeroCount != 0)
+        {
+            temp->data = 0;
+            zeroCount--;
+        }
+        else if(oneCount != 0)
+        {
+            temp->data = 1;
+            oneCount--;
+        }
+        else if(twoCount != 0)
+        {
+            temp->data = 2;
+            twoCount--;
+        }
+
+        temp = temp->next;
+    }
+    
+    return head;
+
+
+}
+
+
+
+// Approach-2
+
+void insertAtTail(Node* &tail, Node* curr)
+{
+    tail->next = curr;
+    tail = curr;
+}
+
+Node* sortList(Node *head)
+{
+    Node* zeroHead = new Node(-1);
+    Node* zeroTail = zeroHead;
+    Node* oneHead = new Node(-1);
+    Node* oneTail = oneHead;
+    Node* twoHead = new Node(-1);
+    Node* twoTail = twoHead;
+
+    Node* curr = head;
+    
+    // Create seprate lsit 0s, 1s, 2s
+    while(curr != NULL)
+    {
+        int value = curr->data;
+        if(value == 0)
+        {
+            insertAtTail(zeroTail, curr);
+        }
+        else if(value == 1)
+        {
+            insertAtTail(oneTail, curr);
+        }
+        else if(value == 2)
+        {
+            insertAtTail(twoTail, curr);
+        }
+
+        curr = curr->next;
+    }
+
+    // Now merge these 3LL
+    if(oneHead->next != NULL){ // 1s List Not Empty
+        zeroTail -> next = oneHead->next;
+    }
+    else{ // 1s List Empty
+        zeroTail->next = twoHead->next;
+    }
+
+    oneTail->next = twoHead->next;
+    twoTail->next = NULL;
+
+    // Setup head
+    head = zeroHead->next;
+
+    // Delete Dummy Nodes
+    delete zeroHead;
+    delete oneHead;
+    delete twoHead;
+
+    return head;
+    
+}
