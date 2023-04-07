@@ -1,0 +1,90 @@
+problem Link:- https://leetcode.com/problems/sort-list/
+
+class Solution {
+public:
+
+ListNode* findMid(ListNode* head)
+{
+   ListNode* slow = head;
+   ListNode* fast = head->next;
+
+   while(fast != NULL && fast->next != NULL)
+   {
+       slow = slow->next;
+       fast = fast->next->next;
+   }
+   return slow;
+}
+
+ListNode* merge(ListNode* left, ListNode* right)
+{
+   if(left == NULL) return right;
+   if(right == NULL) return left;
+
+   ListNode* ans = new ListNode(-1); // Isme ek dummy node bana di aur isko reference krne k liye temp bana di.
+   ListNode* temp = ans; // temp k ander saari nayi nodes enter krta jaunga.
+   
+   // Merge 2 sorted LL
+   while(left != NULL && right != NULL)
+   {
+       if(left->val < right->val) // left data ko ans wali LL mai add krdo
+       {
+          temp->next = left;
+          temp = left;
+          left = left->next;
+       }
+       else
+       {
+          temp->next = right;
+          temp = right;
+          right = right->next;
+       }
+   }
+   
+   // When Right LL is NULL but Left is still remaning
+   while(left != NULL)
+   {
+       temp->next = left;
+       temp = left;
+       left = left->next;
+   }
+
+   // When Left LL is NULL but Right is still remaning
+   while(right != NULL)
+   {
+       temp->next = right;
+       temp = right;
+       right = right->next;
+   }
+
+   ans = ans->next;
+
+   return ans;
+}
+
+ListNode* sortList(ListNode* head)
+ {
+    // Base Case
+    if(head == NULL || head->next == NULL) return head;
+
+    // Array k case mai toh easy hota tha array ko 2 parts mai divide krna using start and end krke
+    // But LL mai hum esa nhi kr skte 
+    // So here we will use Slow and fast pointer approach to find the mid 
+
+    // Break LL in two half's after finding mid
+    ListNode* mid = findMid(head);
+
+    ListNode* left = head;
+    ListNode* right = mid->next;
+    mid->next = NULL;
+
+    // Now let's sort these two half's
+    left = sortList(left);
+    right = sortList(right);
+
+    // Merege both left and right halves
+    ListNode* result = merge(left,right);
+
+    return result;
+ }
+};
