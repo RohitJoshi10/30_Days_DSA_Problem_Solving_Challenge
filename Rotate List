@@ -1,0 +1,62 @@
+Problem Link:- https://leetcode.com/problems/rotate-list/
+
+// Brute Force Approach
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+
+        if(head==NULL || head->next==NULL) return head;
+
+        ListNode* curr1 = NULL;
+        ListNode* curr2 = NULL;
+
+        while(k)
+        {
+           curr1 = head;
+           curr2 = head->next;
+
+           while(curr2->next!=NULL)
+           {
+               curr1 = curr1->next;
+               curr2 = curr2->next;
+           }
+
+           curr2->next = head;
+           curr1->next = NULL;
+           head = curr2;
+
+        }
+        return head;
+
+    }
+};
+
+
+
+// Optimal Approach
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+
+       if(!head || !head->next || k==0) return head;
+
+       // Calculate the length of Linked List
+       ListNode* curr = head;
+       int len = 1;
+       while(curr->next && ++len)
+       curr = curr->next;
+
+       // Go till that node
+       curr->next = head;
+       k = k % len;
+       k = len - k;
+       while(k--) curr = curr->next;
+
+       // Make the node head and break connection
+       head = curr->next;
+       curr->next = NULL;
+
+       return head;
+
+    }
+};
